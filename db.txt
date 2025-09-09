@@ -1,0 +1,57 @@
+create database fne;
+use fne;
+
+--
+-- SENTENCIAS PARA EL SISTEMA DE ELECCIÓN DE REINA ESTUDIANTIL
+--
+-- Este archivo contiene sentencias SQL para MySQL.
+-- No lo ejecutes directamente, úsalo como referencia para tu lógica de negocio.
+--
+
+-- ==============================================================================
+-- 1. CREACIÓN DE UN JURADO
+--
+-- Inserta un nuevo jurado en la tabla 'jurado'. 
+-- La contraseña (password) debe estar encriptada. 
+-- Aquí usamos una función de encriptación genérica, pero en tu app usarás la de Spring Security.
+-- '1' representa un estado activo (true).
+
+INSERT INTO jurado (nombre, usuario, password, estado) 
+VALUES ('ivan', 'admin', '1234', 1);
+
+-- ==============================================================================
+-- 2. CREACIÓN DE UNA CANDIDATA
+--
+-- Inserta una nueva candidata con todos sus atributos.
+-- El puntaje total se inicializa en 0.0.
+
+INSERT INTO candidata (nombres, apellidos, fotoURL, colegio_secundario,puntaje_total, estado) 
+VALUES 
+('Sofia ', 'Alanis Masino', 'https://statics.somosjujuy.com.ar/2025/06/crop/6841f0033048b__912x912.webp',"CABA", 0.0, 1),
+('Gisele ', 'Delsol', 'https://statics.somosjujuy.com.ar/2025/06/crop/6841f0033048b__912x912.webp',"La Pampa", 0.0, 1),
+('Maria ', 'Del Pilar Zalazar', 'https://statics.somosjujuy.com.ar/2025/06/crop/6841f0033048b__912x912.webp',"Corrientes", 0.0, 1);
+
+
+
+-- ==============================================================================
+-- 3. EDICIÓN DE UNA CANDIDATA
+--
+-- Actualiza la información de una candidata existente usando su ID.
+-- Puedes cambiar cualquiera de sus atributos excepto el puntaje_total que se actualiza con los votos.
+
+UPDATE candidata 
+SET nombres = 'Nuevo Nombre', 
+    apellidos = 'Nuevo Apellido', 
+    foto_url = 'https://ejemplo.com/nueva_foto.jpg' 
+WHERE id = 1; -- Cambia '1' por el ID de la candidata a editar
+
+
+-- ==============================================================================
+-- 4. CAMBIAR ESTADO DE UNA CANDIDATA A 'FALSE'
+--
+-- Esta sentencia "elimina" lógicamente a una candidata del sistema sin borrar sus datos.
+-- Su estado se actualiza a '0' (false) para que no sea visible en la votación.
+
+UPDATE candidata 
+SET estado = 0 
+WHERE id = 1; -- Cambia '1' por el ID de la candidata a "eliminar"
