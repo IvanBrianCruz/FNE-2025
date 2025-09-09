@@ -1,0 +1,176 @@
+/* Estilos CSS Integrados para uso local */
+:root {
+    --color-primary: #6c5ce7;
+    --color-secondary: #a29bfe;
+    --color-text-dark: #2d3436;
+    --color-text-light: #f5f6fa;
+    --color-bg: #dfe6e9;
+    --color-card-bg: #ffffff;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg);
+    color: var(--color-text-dark);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* El botón de volver ahora está fuera del media query */
+.back-btn-container {
+    padding-bottom: 2rem;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text-dark);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #ddd;
+    background-color: #f0f0f0;
+}
+
+.back-btn:hover {
+    background-color: #e0e0e0;
+    color: #333;
+    transform: translateX(-5px);
+}
+
+.details-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    background-color: var(--color-card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.candidate-photo {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 0.75rem;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.candidate-info-text {
+    text-align: center;
+}
+
+.candidate-info-text h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--color-text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.candidate-info-text p {
+    font-size: 1.25rem;
+    color: #7f8c8d;
+    margin-bottom: 1rem;
+}
+
+.total-score-box {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(45deg, #8e44ad, #9b59b6);
+    color: #fff;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.total-score-label {
+    opacity: 0.9;
+}
+
+.judges-scores-container {
+    background-color: var(--color-card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.judges-scores-container h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.no-votes {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+.judges-scores-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+
+.judges-scores-table thead th {
+    background-color: #f5f5f5;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #666;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    font-size: 0.9rem;
+}
+
+.judges-scores-table tbody tr {
+    background-color: #fafafa;
+    transition: background-color 0.3s ease;
+    border-radius: 0.75rem;
+}
+
+.judges-scores-table tbody tr:hover {
+    background-color: #e8e8e8;
+}
+
+.judges-scores-table tbody td {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    font-size: 1rem;
+    color: #444;
+}
+
+/* Para pantallas grandes */
+@media (min-width: 768px) {
+    .details-card {
+        flex-direction: row;
+        text-align: left;
+        align-items: flex-start;
+        padding: 3rem;
+    }
+    .candidate-info-text {
+        text-align: left;
+    }
+    .candidate-photo {
+        max-width: 250px;
+    }
+}

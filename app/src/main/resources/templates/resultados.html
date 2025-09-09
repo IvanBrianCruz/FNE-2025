@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la Votación</title>
+      <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/resultados.css}">
+</head>
+<body class="bg-gray-100">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container">
+        <br>
+        <br>
+        <h1>Resultados de la Votación</h1>
+        <div class="results-container">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th class="table-header">Ranking</th>
+                        <th class="table-header">Candidata</th>
+                        <th class="table-header">Puntaje Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="candidata, stat : ${candidatas}" class="table-row" th:onclick="'window.location.href=\'' + @{/resultados/{id}(id=${candidata.id})} + '\''">
+                        <td class="table-cell">
+                            <p class="ranking" th:text="${stat.index + 1}"></p>
+                        </td>
+                        <td class="table-cell">
+                            <div class="candidate-info">
+                                <div class="candidate-photo-container">
+                                    <img class="candidate-photo" th:src="@{'/img/candidatas/' + ${candidata.id} + '.webp'}" alt="Foto de la candidata" />
+                                </div>
+                                <div class="candidate-name">
+                                    <p th:text="${candidata.nombres} + ' ' + ${candidata.apellidos}"></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="table-cell">
+                            <p class="total-score" th:text="${#numbers.formatDecimal(candidata.puntajeTotal, 0, 2)}"></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

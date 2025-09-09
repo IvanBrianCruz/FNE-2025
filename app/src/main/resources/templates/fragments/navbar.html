@@ -1,0 +1,26 @@
+<!-- Fragmento de la barra de navegación -->
+<nav id="navbar-fragment" class="navbar" th:fragment="navbar">
+    <div class="navbar-container">
+        <!-- Imagen izquierda -->
+        <img th:src="@{/img/fne.webp}" alt="Logo Izquierdo" class="nav-logo left-logo" />
+        
+        <div class="navbar-content">
+            <a th:href="@{/votar}" class="navbar-brand">
+                Fiesta Nacional de los Estudiantes 2025
+            </a>
+             <!--<img th:src="@{/img/logo2025.webp}" alt="Logo Central" class="nav-logo center-logo" />-->
+            <div class="navbar-links">
+                <a th:href="@{/votar}" class="nav-item">Votar</a>
+                <a th:href="@{/resultados}" class="nav-item">Resultados</a>
+                <a th:href="@{/logout}" class="nav-item logout-btn">
+                   
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+
+        <!-- Imagen central y derecha (ocultas en móviles) -->
+        
+        <img th:src="@{/img/logo2025.webp}" alt="Logo Derecho" class="nav-logo right-logo" />
+    </div>
+</nav>

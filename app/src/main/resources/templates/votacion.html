@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votación</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/votacion.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="page-content">
+        <h1 class="main-title">Elige a tu Reina Estudiantil</h1>
+
+        <div th:if="${successMessage}" class="message success-message">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="message error-message">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+        <section class="candidates-grid">
+            <div th:each="candidata : ${candidatas}" class="candidate-card">
+               <img th:src="@{'/img/candidatas/' + ${candidata.id} + '.webp'}" 
+                     alt="Foto de la candidata" 
+                     class="candidate-photo">
+
+                <div class="card-content">
+                    <p class="candidate-id">N° de candidata: <span th:text="${candidata.id}"></span></p>
+                    <h2 class="candidate-name" th:text="${candidata.nombres} + ' ' + ${candidata.apellidos}"></h2>
+
+                    <!-- Botón "ELEGIR" que redirige a la nueva página -->
+                    <a th:href="@{/votar/{id}(id=${candidata.id})}" class="select-btn">ELEGIR</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

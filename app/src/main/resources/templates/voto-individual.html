@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Votando por ' + ${candidata.nombres}"></title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/votacion.css}">
+    <link rel="stylesheet" th:href="@{/css/voto-individual.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="page-content">
+      
+        
+        <h1 class="main-title" th:text="'Votando por ' + ${candidata.nombres} + ' ' + ${candidata.apellidos}"></h1>
+
+        <section class="candidate-details">
+            
+            <div class="details-card">
+                <img th:src="@{'/img/candidatas/' + ${candidata.id} + '.webp'}" alt="Foto de la candidata" class="details-photo">
+                <div class="details-content">
+                    <p class="details-label">N° de Candidata:</p>
+                    <p class="details-text" th:text="${candidata.id}"></p>
+
+                    <p class="details-label">Nombre Completo:</p>
+                    <p class="details-text" th:text="${candidata.nombres} + ' ' + ${candidata.apellidos}"></p>
+                    
+                    <p class="details-label">Representante de:</p>
+                    <p class="details-text" th:text="${candidata.colegioSecundario}"></p>
+                    <!-- Aquí puedes agregar otros datos completos de la candidata -->
+                    <!-- <p class="details-label">Estatura:</p> -->
+                    <!-- <p class="details-text" th:text="${candidata.estatura}"></p> -->
+                </div>
+            </div>
+
+            <div class="voting-section">
+                <form th:action="@{/votar/enviar}" method="post" id="voting-form">
+                    <input type="hidden" name="candidataId" th:value="${candidata.id}">
+                    <div class="score-input-group">
+                        <label for="puntaje" class="score-label">Tu Calificación</label>
+                        <input type="number" step="0.01" min="0" max="10" name="puntaje" id="puntaje" class="score-input" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Calificación</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de confirmación -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Confirmar Voto</h3>
+            <p id="modalText" class="modal-text"></p>
+            <div class="modal-actions">
+                <button id="confirmBtn" class="confirm-btn">Sí</button>
+                <button id="cancelBtn" class="cancel-btn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const votingForm = document.getElementById('voting-form');
+        const modal = document.getElementById('confirmModal');
+        const modalText = document.getElementById('modalText');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        // Manejar el envío del formulario con el modal
+        votingForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Detener el envío del formulario
+            const puntaje = document.getElementById('puntaje').value;
+            const nombreCandidata = document.querySelector('.main-title').innerText.replace('Votando por ', '');
+            
+            modalText.innerText = `¿Estás seguro de que quieres dar un puntaje de ${puntaje} a la candidata ${nombreCandidata}?`;
+            modal.style.display = 'flex';
+        });
+
+        confirmBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            votingForm.submit(); // Enviar el formulario
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
