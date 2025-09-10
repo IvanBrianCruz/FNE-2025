@@ -1,188 +1,151 @@
-/* Estilos CSS Integrados para uso local */
-        :root {
-            --color-primary: #000000;
-            --color-secondary: #000000;
-            --color-text-dark: #2d3436;
-            --color-text-light: #f5f6fa;
-            --color-bg: #dfe6e9;
-            --color-card-bg: #ffffff;
-        }
+/* * Estilos generales para la página de resultados 
+ * Completamente local y responsivo.
+ */
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--color-bg);
-            color: var(--color-text-dark);
-        }
+:root {
+    --primary-color: #3b82f6;
+    --secondary-color: #60a5fa;
+    --background-color: #f3f4f6;
+    --card-background: #ffffff;
+    --text-color-dark: #1f2937;
+    --text-color-medium: #4b5563;
+    --border-color-light: #e5e7eb;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+}
 
-        
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding-top: 5rem; /* Space for the navbar */
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            color: var(--color-text-dark);
-            margin-bottom: 2rem;
-        }
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-color-dark);
+    text-align: center;
+    margin-bottom: 2rem;
+}
 
-        .results-container {
-            background-color: var(--color-card-bg);
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
 
-        .results-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 0.5rem;
-        }
+/* Button styles */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
 
-        .results-table thead {
-            display: none; /* Oculta el encabezado en móviles */
-        }
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+}
 
-        .table-row {
-            background-color: #fafafa;
-            border-radius: 0.75rem;
-            margin-bottom: 1rem;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: block; /* Cada fila se comporta como un bloque en móviles */
-            padding: 1.5rem 1rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
 
-        .table-row:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
 
-        .table-cell {
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-        }
+/* Alert messages */
+.alert {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+}
 
-        .ranking {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            width: 3rem;
-            text-align: center;
-        }
-        
-        .ranking::before {
-            content: "Ranking";
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #999;
-            margin-right: 1rem;
-            display: inline-block;
-        }
+.alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #34d399;
+}
 
-        .candidate-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex: 1;
-        }
+.alert-danger {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #ef4444;
+}
 
-        .candidate-photo-container {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid var(--color-primary);
-        }
+/* Table styles */
+.table-container {
+    background-color: var(--card-background);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    overflow-x: auto; /* Enables horizontal scroll on small screens */
+    padding: 1.5rem;
+}
 
-        .candidate-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
 
-        .candidate-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
+th, td {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color-light);
+}
 
-        .total-score {
-            font-weight: 700;
-            color: var(--color-secondary);
-            font-size: 1.25rem;
-            text-align: right;
-        }
-        
-        .total-score::before {
-            content: "Puntaje Total";
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #999;
-            margin-right: 1rem;
-            display: inline-block;
-        }
+thead th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: var(--text-color-medium);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
 
-        /* Responsive para tabletas y escritorios */
-        @media (min-width: 768px) {
-            h1 {
-                font-size: 3rem;
-            }
+tbody tr:last-child td {
+    border-bottom: none;
+}
 
-            .results-table {
-                border-spacing: 0;
-            }
-            
-            .results-table thead {
-                display: table-header-group;
-            }
-            
-            .table-header {
-                background-color: #f7fafc;
-                padding: 1.5rem 2rem;
-                text-align: left;
-                font-size: 0.875rem;
-                font-weight: 600;
-                color: #4a5568;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                border-bottom: 2px solid #edf2f7;
-            }
+tbody tr:hover {
+    background-color: #f9fafb;
+}
 
-            .table-row {
-                display: table-row;
-                background-color: transparent;
-                margin-bottom: 0;
-                padding: 0;
-                box-shadow: none;
-                transition: background-color 0.2s ease;
-            }
+/* Score cell styling */
+.puntaje {
+    font-weight: 700;
+}
 
-            .table-row:nth-child(odd) {
-                background-color: #fafafa;
-            }
-
-            .table-row:hover {
-                transform: none;
-                background-color: #e2e8f0;
-            }
-            
-            .table-cell {
-                display: table-cell;
-                padding: 1.5rem 2rem;
-                border-bottom: 1px solid #edf2f7;
-            }
-            
-            .ranking::before, .total-score::before {
-                display: none;
-            }
-        }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .admin-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}

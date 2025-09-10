@@ -1,6 +1,5 @@
 package fne.app.services;
 
-
 import fne.app.models.Jurado;
 import fne.app.repository.JuradoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,7 @@ public class JuradoService {
 
     // Método para guardar un nuevo jurado
     public Jurado guardar(Jurado jurado) {
-        // En la vida real, aquí encriptarías la contraseña antes de guardar.
-        // Por ahora, solo guardamos el objeto.
+        // Aquí se podría encriptar la contraseña antes de guardar.
         return juradoRepository.save(jurado);
     }
 
@@ -26,8 +24,9 @@ public class JuradoService {
         return juradoRepository.findById(id);
     }
 
-    // Método para encontrar un jurado por su nombre de usuario (utilizado en la autenticación)
+    // Método para encontrar un jurado por su nombre de usuario
     public Jurado encontrarPorUsuario(String usuario) {
         return juradoRepository.findByUsuario(usuario);
     }
 }
+

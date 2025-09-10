@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,15 +37,9 @@ public class VotoController {
     public String paginaVotacion(Model model) {
         List<Candidata> candidatas = candidataService.obtenerTodas();
         model.addAttribute("candidatas", candidatas);
-        return "votacion"; // Devuelve la plantilla HTML (votacion.html)
+        return "votacion";
     }
 
-    /**
-     * Muestra la página de votación individual para una candidata específica.
-     * El ID de la candidata seleccionada.
-     *  El modelo para pasar datos a la vista.
-     *  La plantilla de votación individual o redirige si la candidata no existe.
-     */
     @GetMapping("/votar/{id}")
     public String paginaVotacionIndividual(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
         return candidataService.obtenerPorId(id)
@@ -59,15 +54,13 @@ public class VotoController {
     }
 
     /**
-     * Registra el voto del jurado para una candidata seleccionada.
-     *  El ID de la candidata a la que se vota.
-     * El puntaje asignado.
-     *  Atributos para redirigir con mensajes.
-     *  Redirección a la página principal de votación.
+     * Registra el voto de un jurado para una candidata con tres puntajes.
      */
     @PostMapping("/votar/enviar")
     public String registrarVoto(@RequestParam Integer candidataId,
-                                @RequestParam Double puntaje,
+                                @RequestParam Double puntaje1,
+                                @RequestParam Double puntaje2,
+                                @RequestParam Double puntaje3,
                                 RedirectAttributes redirectAttributes) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String usuarioActual = auth.getName();
@@ -79,7 +72,11 @@ public class VotoController {
             Voto voto = new Voto();
             voto.setJurado(jurado);
             voto.setCandidata(candidata);
-            voto.setPuntaje(puntaje);
+            // Se asignan los tres nuevos puntajes
+            voto.setPuntaje1(puntaje1);
+            voto.setPuntaje2(puntaje2);
+            voto.setPuntaje3(puntaje3);
+            // El subtotal se calculará automáticamente en la entidad Voto
 
             try {
                 votoService.guardar(voto);
@@ -98,13 +95,38 @@ public class VotoController {
     public String mostrarResultados(Model model) {
         List<Candidata> candidatas = candidataService.obtenerTodas();
         
-        // Ordenar las candidatas por puntaje total de mayor a menor
+        // Ordenar las candidatas por puntaje total de mayor a menor, manejando posibles nulos.
         List<Candidata> candidatasOrdenadas = candidatas.stream()
-                .sorted((c1, c2) -> Double.compare(c2.getPuntajeTotal(), c1.getPuntajeTotal()))
-                .collect(Collectors.toList());
-                
+            .sorted(Comparator.comparing(Candidata::getPuntajeTotal, Comparator.nullsLast(Comparator.reverseOrder())))
+            .collect(Collectors.toList());
+            
         model.addAttribute("candidatas", candidatasOrdenadas);
-        return "resultados"; // Devuelve la plantilla HTML (resultados.html)
+        return "resultados";
+    }
+
+    /**
+     * Nuevo endpoint para ejecutar el cálculo de los puntajes totales.
+     * Debería ser accesible solo por un administrador.
+     */
+    @PostMapping("/resultados/calcular")
+    public String calcularResultados(RedirectAttributes redirectAttributes) {
+        try {
+            candidataService.calcularPuntajesTotales();
+            redirectAttributes.addFlashAttribute("successMessage", "Se han calculado y actualizado los puntajes totales.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ocurrió un error al calcular los puntajes.");
+        }
+        return "redirect:/resultados";
+    }
+    
+    /**
+     * Nuevo endpoint para mostrar el reporte completo del escrutinio.
+     */
+    @GetMapping("/escrutinio")
+    public String mostrarEscrutinio(Model model) {
+        List<Candidata> escrutinio = candidataService.generarEscrutinioCompleto();
+        model.addAttribute("candidatas", escrutinio);
+        return "escrutinio"; // Devuelve la plantilla HTML (escrutinio.html)
     }
 
     @GetMapping("/resultados/{id}")

@@ -3,58 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="'Votando por ' + ${candidata.nombres}"></title>
-    <link rel="stylesheet" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" th:href="@{/css/votacion.css}">
+    <title>Votar - FNE</title>
+       <link rel="stylesheet" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" th:href="@{/css/voto-individual.css}">
 </head>
 <body>
+    <!-- Se incluye la barra de navegación -->
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <main class="page-content">
-      
-        
-        <h1 class="main-title" th:text="'Votando por ' + ${candidata.nombres} + ' ' + ${candidata.apellidos}"></h1>
+    <div class="container-votacion">
+        <br>
+        <br>
+        <br>
+        <h1 class="main-title" th:text="'Votando por ' + ${candidata.nombres} + ' ' + ${candidata.apellidos}">Votando por...</h1>
+        <p class="subtitle" th:text="${candidata.colegioSecundario}">Colegio...</p>
 
-        <section class="candidate-details">
+        <div class="voto-card">
+            <img th:src="@{'/img/candidatas/' + ${candidata.id} + '.webp'}" alt="Foto de la candidata" class="candidata-photo-large">
             
-            <div class="details-card">
-                <img th:src="@{'/img/candidatas/' + ${candidata.id} + '.webp'}" alt="Foto de la candidata" class="details-photo">
-                <div class="details-content">
-                    <p class="details-label">N° de Candidata:</p>
-                    <p class="details-text" th:text="${candidata.id}"></p>
+            <!-- El formulario ahora envía 3 puntajes -->
+            <form id="voting-form" th:action="@{/votar/enviar}" method="post" class="voto-form">
+                <input type="hidden" name="candidataId" th:value="${candidata.id}" />
 
-                    <p class="details-label">Nombre Completo:</p>
-                    <p class="details-text" th:text="${candidata.nombres} + ' ' + ${candidata.apellidos}"></p>
-                    
-                    <p class="details-label">Representante de:</p>
-                    <p class="details-text" th:text="${candidata.colegioSecundario}"></p>
-                    <!-- Aquí puedes agregar otros datos completos de la candidata -->
-                    <!-- <p class="details-label">Estatura:</p> -->
-                    <!-- <p class="details-text" th:text="${candidata.estatura}"></p> -->
+                <!-- Campo para el Puntaje 1 -->
+                <div class="form-group">
+                    <label for="puntaje1">Puntaje 1 (Ej: Elegancia)</label>
+                    <input type="number" id="puntaje1" name="puntaje1" class="form-control" min="1" max="10" step="0.5" required>
                 </div>
-            </div>
 
-            <div class="voting-section">
-                <form th:action="@{/votar/enviar}" method="post" id="voting-form">
-                    <input type="hidden" name="candidataId" th:value="${candidata.id}">
-                    <div class="score-input-group">
-                        <label for="puntaje" class="score-label">Tu Calificación</label>
-                        <input type="number" step="0.01" min="0" max="10" name="puntaje" id="puntaje" class="score-input" required>
-                    </div>
-                    <button type="submit" class="submit-btn">Enviar Calificación</button>
-                </form>
-            </div>
-        </section>
-    </main>
+                <!-- Campo para el Puntaje 2 -->
+                <div class="form-group">
+                    <label for="puntaje2">Puntaje 2 (Ej: Desplante)</label>
+                    <input type="number" id="puntaje2" name="puntaje2" class="form-control" min="1" max="10" step="0.5" required>
+                </div>
 
-    <!-- Modal de confirmación -->
+                <!-- Campo para el Puntaje 3 -->
+                <div class="form-group">
+                    <label for="puntaje3">Puntaje 3 (Ej: Cultura General)</label>
+                    <input type="number" id="puntaje3" name="puntaje3" class="form-control" min="1" max="10" step="0.5" required>
+                </div>
+
+                <button type="submit" class="btn-primary">Registrar Voto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
     <div id="confirmModal" class="modal">
         <div class="modal-content">
-            <h3 class="modal-title">Confirmar Voto</h3>
-            <p id="modalText" class="modal-text"></p>
+            <p id="modalText"></p>
             <div class="modal-actions">
-                <button id="confirmBtn" class="confirm-btn">Sí</button>
+                <button id="confirmBtn" class="confirm-btn">Sí, confirmar</button>
                 <button id="cancelBtn" class="cancel-btn">Cancelar</button>
             </div>
         </div>
@@ -67,19 +66,21 @@
         const confirmBtn = document.getElementById('confirmBtn');
         const cancelBtn = document.getElementById('cancelBtn');
 
-        // Manejar el envío del formulario con el modal
+        // El script se actualiza para manejar los 3 puntajes
         votingForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Detener el envío del formulario
-            const puntaje = document.getElementById('puntaje').value;
+            event.preventDefault(); 
+            const p1 = document.getElementById('puntaje1').value;
+            const p2 = document.getElementById('puntaje2').value;
+            const p3 = document.getElementById('puntaje3').value;
             const nombreCandidata = document.querySelector('.main-title').innerText.replace('Votando por ', '');
             
-            modalText.innerText = `¿Estás seguro de que quieres dar un puntaje de ${puntaje} a la candidata ${nombreCandidata}?`;
+            modalText.innerText = `¿Confirmas los puntajes ${p1}, ${p2} y ${p3} para la candidata ${nombreCandidata}?`;
             modal.style.display = 'flex';
         });
 
         confirmBtn.addEventListener('click', function() {
             modal.style.display = 'none';
-            votingForm.submit(); // Enviar el formulario
+            votingForm.submit(); 
         });
 
         cancelBtn.addEventListener('click', function() {

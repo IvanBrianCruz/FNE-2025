@@ -3,54 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de Candidata</title>
-     <link rel="stylesheet" th:href="@{/css/resultados-detalle.css}">
-     
+    <title>Detalle de Votos - FNE</title>
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
+     <link rel="stylesheet" th:href="@{/css/resultados-detalle.css}">
 </head>
-<body class="bg-gray-100">
+<body>
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <div class="container">
-        <div class="back-btn-container">
-            <a th:href="@{/resultados}" class="back-btn">
-            
-               < Volver a Resultados
-            </a>
-        </div>
+        <a th:href="@{/resultados}" class="back-link">&larr; Volver a Resultados</a>
+        <h1 class="main-title" th:text="'Detalle de Votos para ' + ${candidata.nombres} + ' ' + ${candidata.apellidos}">Detalle de Votos</h1>
         
-        <div class="details-card">
-            <img class="candidate-photo" th:src="@{'/img/candidatas/' + ${candidata.id} + '.webp'}" alt="Foto de la candidata" />
-            <div class="candidate-info-text">
-                <h1 th:text="${candidata.nombres} + ' ' + ${candidata.apellidos}"></h1>
-                <p >Representante de:</p>
-                <p th:text="${candidata.colegioSecundario}"></p>
-                <div class="total-score-box">
-                    <span class="total-score-label">Puntaje Total:</span>
-                    <span th:text="${#numbers.formatDecimal(candidata.puntajeTotal, 0, 2)}" class="total-score-value"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="judges-scores-container">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Puntajes de Jueces</h2>
-            <div th:if="${votos.empty}" class="no-votes">
-                <p>Aún no hay votos registrados para esta candidata.</p>
-            </div>
-            <table th:if="${not votos.empty}" class="judges-scores-table">
+        <div class="table-container">
+            <table th:if="${!votos.isEmpty()}">
                 <thead>
                     <tr>
-                        <th>Juez</th>
-                        <th>Puntaje</th>
+                        <th>Jurado</th>
+                        <th>Puntaje 1</th>
+                        <th>Puntaje 2</th>
+                        <th>Puntaje 3</th>
+                        <th>Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- La tabla ahora muestra los 3 puntajes y el subtotal -->
                     <tr th:each="voto : ${votos}">
-                        <td th:text="${voto.jurado.nombre}"></td>
-                        <td th:text="${#numbers.formatDecimal(voto.puntaje, 0, 2)}"></td>
+                        <td th:text="${voto.jurado.nombre}">Nombre del Jurado</td>
+                        <td th:text="${#numbers.formatDecimal(voto.puntaje1, 1, 1)}">0.0</td>
+                        <td th:text="${#numbers.formatDecimal(voto.puntaje2, 1, 1)}">0.0</td>
+                        <td th:text="${#numbers.formatDecimal(voto.puntaje3, 1, 1)}">0.0</td>
+                        <td class="subtotal" th:text="${#numbers.formatDecimal(voto.subtotal, 1, 2)}">0.00</td>
                     </tr>
                 </tbody>
             </table>
+            <p th:if="${votos.isEmpty()}">No hay votos registrados para esta candidata.</p>
         </div>
     </div>
 </body>

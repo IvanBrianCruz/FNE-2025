@@ -1,0 +1,163 @@
+/* * Estilos para la página de escrutinio general
+ * Completamente local y responsivo.
+ */
+
+:root {
+    --primary-color: #3b82f6;
+    --secondary-color: #60a5fa;
+    --background-color: #f3f4f6;
+    --card-background: #ffffff;
+    --text-color-dark: #1f2937;
+    --text-color-medium: #4b5563;
+    --border-color-light: #e5e7eb;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding-top: 5rem; /* Espacio para el navbar */
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.escrutinio-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.header-logo {
+    width: 100px;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-color-dark);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1.125rem;
+    color: var(--text-color-medium);
+    font-weight: 500;
+}
+
+.candidata-escrutinio-card {
+    background-color: var(--card-background);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.candidata-escrutinio-card h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.candidata-escrutinio-card h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.candidata-escrutinio-card p {
+    font-size: 1rem;
+    color: var(--text-color-medium);
+    margin-bottom: 0.5rem;
+}
+
+.puntaje-final {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--primary-color);
+}
+
+.table-container {
+    background-color: var(--card-background);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+th, td {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color-light);
+}
+
+thead th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: var(--text-color-medium);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.subtotal {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .escrutinio-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}

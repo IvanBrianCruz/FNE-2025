@@ -14,14 +14,13 @@ public class Jurado {
     @Column
     private String usuario;
     @Column
-    private String password; // La contraseña se guardará encriptada
+    private String password;
 
-    // Relación OneToMany: un jurado puede emitir muchos votos
     @OneToMany(mappedBy = "jurado")
     private List<Voto> votos;
     
     @Column
-    private boolean estado = true; // Agregado por defecto en true
+    private boolean estado = true;
 
     // Getters y Setters
     public Integer getId() {

@@ -22,16 +22,17 @@ public class Candidata {
     @Column
     private String fotoURL;
     @Column
-    private String colegioSecundario; // Colegio secundario
+    private String colegioSecundario;
+    
+    // Este campo ahora almacenará la suma de los 'subtotal' de todos los votos recibidos.
     @Column
-    private Double puntajeTotal; // Campo para almacenar el puntaje total
+    private Double puntajeTotal;
 
-    // Relación OneToMany: una candidata puede tener muchos votos
     @OneToMany(mappedBy = "candidata")
     private List<Voto> votos;
     
     @Column
-    private boolean estado = true; // Agregado por defecto en true
+    private boolean estado = true;
 
     // Getters y Setters
     public Integer getId() {

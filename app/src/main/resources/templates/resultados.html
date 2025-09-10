@@ -3,43 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de la Votación</title>
-      <link rel="stylesheet" th:href="@{/css/navbar.css}">
-        <link rel="stylesheet" th:href="@{/css/resultados.css}">
+    <title>Resultados - FNE</title>
+ <link rel="stylesheet" th:href="@{/css/navbar.css}">
+ <link rel="stylesheet" th:href="@{/css/resultados.css}">
 </head>
-<body class="bg-gray-100">
+<body>
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <div class="container">
-        <br>
-        <br>
-        <h1>Resultados de la Votación</h1>
-        <div class="results-container">
-            <table class="results-table">
+        <h1 class="main-title">Resultados de la Votación</h1>
+
+        <!-- Sección de acciones para administradores -->
+        <div class="admin-actions">
+             <form th:action="@{/resultados/calcular}" method="post" style="display: inline-block; margin-right: 10px;">
+                <button type="submit" class="btn-primary btn-calcular">Finalizar Votación y Calcular Puntajes Totales</button>
+            </form>
+            <a th:href="@{/escrutinio}" class="btn-secondary">Ver Escrutinio Detallado</a>
+        </div>
+       
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <div class="table-container">
+            <table>
                 <thead>
                     <tr>
-                        <th class="table-header">Ranking</th>
-                        <th class="table-header">Candidata</th>
-                        <th class="table-header">Puntaje Total</th>
+                        <th>Posición</th>
+                        <th>Candidata</th>
+                        <th>Colegio</th>
+                        <th>Puntaje Total</th>
+                        <th>Detalles</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="candidata, stat : ${candidatas}" class="table-row" th:onclick="'window.location.href=\'' + @{/resultados/{id}(id=${candidata.id})} + '\''">
-                        <td class="table-cell">
-                            <p class="ranking" th:text="${stat.index + 1}"></p>
-                        </td>
-                        <td class="table-cell">
-                            <div class="candidate-info">
-                                <div class="candidate-photo-container">
-                                    <img class="candidate-photo" th:src="@{'/img/candidatas/' + ${candidata.id} + '.webp'}" alt="Foto de la candidata" />
-                                </div>
-                                <div class="candidate-name">
-                                    <p th:text="${candidata.nombres} + ' ' + ${candidata.apellidos}"></p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="table-cell">
-                            <p class="total-score" th:text="${#numbers.formatDecimal(candidata.puntajeTotal, 0, 2)}"></p>
+                    <tr th:each="candidata, iterStat : ${candidatas}">
+                        <td th:text="${iterStat.count}">1</td>
+                        <td th:text="${candidata.nombres} + ' ' + ${candidata.apellidos}">Nombre Apellido</td>
+                        <td th:text="${candidata.colegioSecundario}">Colegio</td>
+                        <!-- Muestra 'Pendiente' si el puntaje total aún no se ha calculado -->
+                        <td class="puntaje" th:text="${candidata.puntajeTotal != null ? #numbers.formatDecimal(candidata.puntajeTotal, 1, 2) : 'Pendiente'}">0.00</td>
+                        <td>
+                            <a th:href="@{/resultados/{id}(id=${candidata.id})}" class="btn-secondary">Ver Votos</a>
                         </td>
                     </tr>
                 </tbody>

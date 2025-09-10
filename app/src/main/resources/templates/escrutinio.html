@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escrutinio Completo - FNE</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/Escrutinio.css}">
+    <!-- Estilos adicionales para la impresión -->
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .printable-area, .printable-area * {
+                visibility: visible;
+            }
+            .printable-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}" class="no-print"></div>
+
+    <div class="container printable-area">
+        <div class="escrutinio-header">
+             <img th:src="@{/img/fne.webp}" alt="Logo FNE" class="header-logo"/>
+             <div>
+                <h1 class="main-title">Escrutinio General Detallado</h1>
+                <p class="subtitle">Fiesta Nacional de los Estudiantes 2025</p>
+             </div>
+        </div>
+
+        <!-- Botón para imprimir -->
+        <div class="text-center no-print" style="margin-bottom: 20px;">
+            <button onclick="window.print()" class="btn-primary">Imprimir Reporte</button>
+        </div>
+
+        <!-- Iteración sobre cada candidata -->
+        <div th:each="candidata : ${candidatas}" class="candidata-escrutinio-card">
+            <h2 th:text="${candidata.nombres} + ' ' + ${candidata.apellidos}">Nombre Candidata</h2>
+            <p><strong>Colegio:</strong> <span th:text="${candidata.colegioSecundario}"></span></p>
+            <p><strong>PUNTAJE TOTAL FINAL:</strong> <span class="puntaje-final" th:text="${candidata.puntajeTotal != null ? #numbers.formatDecimal(candidata.puntajeTotal, 1, 2) : 'N/A'}"></span></p>
+
+            <h4>Detalle de Votos Recibidos:</h4>
+            <div class="table-container">
+                <table th:if="${!candidata.votos.isEmpty()}">
+                    <thead>
+                        <tr>
+                            <th>Jurado</th>
+                            <th>Puntaje 1</th>
+                            <th>Puntaje 2</th>
+                            <th>Puntaje 3</th>
+                            <th>Subtotal del Voto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Iteración sobre cada voto de la candidata -->
+                        <tr th:each="voto : ${candidata.votos}">
+                            <td th:text="${voto.jurado.nombre}">Nombre Jurado</td>
+                            <td th:text="${#numbers.formatDecimal(voto.puntaje1, 1, 1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(voto.puntaje2, 1, 1)}"></td>
+                            <td th:text="${#numbers.formatDecimal(voto.puntaje3, 1, 1)}"></td>
+                            <td class="subtotal" th:text="${#numbers.formatDecimal(voto.subtotal, 1, 2)}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p th:if="${candidata.votos.isEmpty()}">Esta candidata no ha recibido votos.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
